@@ -1659,8 +1659,3 @@ async def send_autopilot_content(bot) -> None:
             logger.warning("Autopilot failed for user %s: %s", tid, exc)
 
         await asyncio.sleep(0.5)
-```
-        except Exception as exc:
-            logger.warning("Autopilot failed for user %s: %s", tid, exc)
-
-        await asyncio.sleep(0.5)
