@@ -1,3 +1,4 @@
+```python
 """
 bot/commands.py — All Telegram command and callback-query handlers.
 
@@ -9,6 +10,7 @@ v6 — Product features:
   Feature 5: /viral command (engagement posts)
   Feature 6: Referral system (/start ref_XXX + /referral command)
   Feature 7: Viral CTA button on all generated posts
+v11: Modified cmd_post to accept both /post <topic> and plain text input
 """
 
 import asyncio
@@ -466,17 +468,26 @@ async def _generate_content(
 async def cmd_post(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if not await _ensure_user(update):
         return await _db_error_reply(update)
-    topic = _extract_topic(context)
-    if not topic:
-        return await update.message.reply_text("⚠️ Provide a topic.\nExample: /post bitcoin crash")
-    err = _validate_topic(topic)
+    
+    # Handle both /post <topic> and plain text
+    text = None
+    if context.args:
+        text = " ".join(context.args)
+    elif update.message and update.message.text:
+        text = update.message.text.strip()
+    
+    if not text:
+        await update.message.reply_text("⚠️ Provide a topic.\nExample: /post bitcoin crash")
+        return
+    
+    err = _validate_topic(text)
     if err:
         return await update.message.reply_text(err)
     if not await _enforce_limits(update):
         return
-    logger.info("User %s /post %r", update.effective_user.id, topic)
+    logger.info("User %s /post %r", update.effective_user.id, text)
     await _generate_content(update, context, command="post", system_prompt=POST_SYSTEM,
-                            user_prompt=f"Write a Telegram channel post about: {topic}",
+                            user_prompt=f"Write a Telegram channel post about: {text}",
                             cache_ttl=AI_CACHE_TTL)
 
 
@@ -1645,6 +1656,11 @@ async def send_autopilot_content(bot) -> None:
             await _T(update_autopilot_delivery, tid)
             logger.info("Autopilot delivered to user %s", tid)
 
+        except Exception as exc:
+            logger.warning("Autopilot failed for user %s: %s", tid, exc)
+
+        await asyncio.sleep(0.5)
+```
         except Exception as exc:
             logger.warning("Autopilot failed for user %s: %s", tid, exc)
 
