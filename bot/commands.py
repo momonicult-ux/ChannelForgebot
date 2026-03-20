@@ -1,4 +1,3 @@
-```python
 """
 bot/commands.py — All Telegram command and callback-query handlers.
 
