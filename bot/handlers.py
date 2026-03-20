@@ -6,6 +6,7 @@ v7: Added ConversationHandler for /rewrite, /audit, /boost (first use of
     Added /engage, /autopilot commands.
     ConversationHandlers registered BEFORE the generic CallbackQueryHandler
     to avoid routing conflicts.
+v11: Added unknown_message fallback handler to treat plain text as /post requests.
 """
 
 from telegram.ext import (
@@ -51,6 +52,13 @@ from bot.commands import (
     cmd_boost,
     boost_receive_text,
 )
+
+
+async def unknown_message(update, context):
+    """Fallback handler: treat plain text as /post request."""
+    text = update.message.text.strip()
+    context.args = text.split()
+    await cmd_post(update, context)
 
 
 def register_handlers(app: Application) -> None:
@@ -120,3 +128,6 @@ def register_handlers(app: Application) -> None:
 
     # ── Generic CallbackQueryHandler (must be LAST) ──────────────────────
     app.add_handler(CallbackQueryHandler(callback_handler))
+
+    # ── Fallback MessageHandler (catches all non-command text) ───────────
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, unknown_message))
