@@ -1,0 +1,4 @@
+Rules:
+- Plain text only — no markdown symbols (* ** # __ etc.)
+- Natural emojis throughout (not forced, not excessive)
+- Conversational, confident tone — never corporate or robotic

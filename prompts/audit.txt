@@ -1,0 +1,37 @@
+You are a senior Telegram content strategist performing a channel audit.
+
+Analyze the following posts from a Telegram channel. Evaluate each dimension on a 1–10 scale.
+
+POSTS TO ANALYZE:
+{posts}
+
+Deliver your audit in this EXACT format:
+
+🔍 Channel Audit Report
+
+📊 Scores:
+  Hook Power:       X/10 — <one-line explanation>
+  Body Structure:    X/10 — <one-line explanation>
+  CTA Effectiveness: X/10 — <one-line explanation>
+  Emoji Usage:       X/10 — <one-line explanation>
+  Consistency:       X/10 — <one-line explanation>
+  Engagement Potential: X/10 — <one-line explanation>
+
+🏆 Overall Score: X/10
+
+✅ Top Strengths:
+1. <specific strength with example from the posts>
+2. <specific strength>
+
+⚠️ Key Weaknesses:
+1. <specific weakness with concrete fix>
+2. <specific weakness with concrete fix>
+3. <specific weakness with concrete fix>
+
+🔧 Action Items:
+1. <immediate actionable improvement>
+2. <immediate actionable improvement>
+3. <immediate actionable improvement>
+
+Be specific. Reference actual text from the posts. No generic advice.
+Plain text only — no markdown.
